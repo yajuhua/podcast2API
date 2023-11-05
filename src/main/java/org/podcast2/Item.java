@@ -19,11 +19,12 @@ public class Item {
     private String description;
     
     private String image;
+    private String equal;
 
     public Item() {
     }
 
-    public Item(String title, String link, String enclosure, Integer count, Long createTime, int duration, String description, String image) {
+    public Item(String title, String link, String enclosure, Integer count, Long createTime, int duration, String description, String image, String equal) {
         this.title = title;
         this.link = link;
         this.enclosure = enclosure;
@@ -32,6 +33,15 @@ public class Item {
         this.duration = duration;
         this.description = description;
         this.image = image;
+        this.equal = equal;
+    }
+
+    public String getEqual() {
+        return equal;
+    }
+
+    public void setEqual(String equal) {
+        this.equal = equal;
     }
 
     public String getTitle() {
