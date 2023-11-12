@@ -1,6 +1,7 @@
-package org.podcast2;
+package io.github.yajuhua.podcast2API;
 
 import com.google.gson.annotations.Expose;
+import org.apache.commons.text.StringEscapeUtils;
 
 public class Item {
     
@@ -9,9 +10,7 @@ public class Item {
     private String link;
     
     private String enclosure;
-    
-    private Integer count;
-    
+
     private Long createTime;
     
     private int duration;
@@ -24,11 +23,10 @@ public class Item {
     public Item() {
     }
 
-    public Item(String title, String link, String enclosure, Integer count, Long createTime, int duration, String description, String image, String equal) {
+    public Item(String title, String link, String enclosure, Long createTime, int duration, String description, String image, String equal) {
         this.title = title;
         this.link = link;
         this.enclosure = enclosure;
-        this.count = count;
         this.createTime = createTime;
         this.duration = duration;
         this.description = description;
@@ -53,7 +51,7 @@ public class Item {
     }
 
     public String getLink() {
-        return this.link;
+        return this.link ;
     }
 
     public void setLink(String link) {
@@ -61,19 +59,15 @@ public class Item {
     }
 
     public String getEnclosure() {
-        return this.enclosure;
+        //判断是默认还是自定义模式
+        if (this.enclosure.contains("${rename}") || this.enclosure.contains("${path}")){
+            return this.enclosure;
+        }
+            return StringEscapeUtils.escapeXml10(this.enclosure);
     }
 
     public void setEnclosure(String enclosure) {
         this.enclosure = enclosure;
-    }
-
-    public Integer getCount() {
-        return this.count;
-    }
-
-    public void setCount(Integer count) {
-        this.count = count;
     }
 
     public Long getCreateTime() {
@@ -93,7 +87,7 @@ public class Item {
     }
 
     public String getDescription() {
-        return this.description;
+        return this.description ;
     }
 
     public void setDescription(String description) {
@@ -101,14 +95,24 @@ public class Item {
     }
 
     public String getImage() {
-        return this.image;
+        return StringEscapeUtils.escapeXml10(this.image);
     }
 
     public void setImage(String image) {
         this.image = image;
     }
 
+    @Override
     public String toString() {
-        return "Item{title='" + this.title + "', link='" + this.link + "', enclosure='" + this.enclosure + "', count=" + this.count + ", createTime=" + this.createTime + ", duration=" + this.duration + ", description='" + this.description + "', image='" + this.image + "'}";
+        return "Item{" +
+                "title='" + title + '\'' +
+                ", link='" + link + '\'' +
+                ", enclosure='" + enclosure + '\'' +
+                ", createTime=" + createTime +
+                ", duration=" + duration +
+                ", description='" + description + '\'' +
+                ", image='" + image + '\'' +
+                ", equal='" + equal + '\'' +
+                '}';
     }
 }

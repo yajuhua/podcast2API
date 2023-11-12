@@ -1,4 +1,7 @@
-package org.podcast2;
+package io.github.yajuhua.podcast2API;
+
+import org.apache.commons.text.StringEscapeUtils;
+
 public class Channel {
 
     private String title;
@@ -29,7 +32,7 @@ public class Channel {
     }
 
     public String getTitle() {
-        return this.title;
+        return  this.title;
     }
 
     public void setTitle(String title) {
@@ -37,7 +40,7 @@ public class Channel {
     }
 
     public String getImage() {
-        return this.image;
+        return StringEscapeUtils.escapeXml10(this.image);
     }
 
     public void setImage(String image) {
@@ -45,7 +48,7 @@ public class Channel {
     }
 
     public String getAuthor() {
-        return this.author;
+        return  this.author;
     }
 
     public void setAuthor(String author) {
@@ -53,7 +56,7 @@ public class Channel {
     }
 
     public String getCategory() {
-        return this.category;
+        return StringEscapeUtils.escapeXml10(this.category);
     }
 
     public void setCategory(String category) {
