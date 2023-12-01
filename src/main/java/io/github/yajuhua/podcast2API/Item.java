@@ -19,6 +19,8 @@ public class Item {
     
     private String image;
     private String equal;
+    private boolean escapeEnclosure = true;//默认转义
+    private boolean escapeImage = true;//默认转义
 
     public Item() {
     }
@@ -32,6 +34,15 @@ public class Item {
         this.description = description;
         this.image = image;
         this.equal = equal;
+    }
+
+
+    public void setEscapeEnclosure(boolean escapeEnclosure) {
+        this.escapeEnclosure = escapeEnclosure;
+    }
+
+    public void setEscapeImage(boolean escapeImage) {
+        this.escapeImage = escapeImage;
     }
 
     public String getEqual() {
@@ -60,7 +71,7 @@ public class Item {
 
     public String getEnclosure() {
         //判断是默认还是自定义模式
-        if (this.enclosure.contains("${rename}") || this.enclosure.contains("${path}")){
+        if (this.enclosure.contains("${rename}") || this.enclosure.contains("${path}") || this.escapeEnclosure == false){
             return this.enclosure;
         }
             return StringEscapeUtils.escapeXml10(this.enclosure);
@@ -95,6 +106,9 @@ public class Item {
     }
 
     public String getImage() {
+        if (this.escapeImage == false){
+            return this.image;
+        }
         return StringEscapeUtils.escapeXml10(this.image);
     }
 
