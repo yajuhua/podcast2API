@@ -62,85 +62,224 @@ public class YtDlp implements Runnable, Downloader {
         log.info("operation:{}", operation.toString());
         log.info("type:{}", type.toString());
         //无须合并，没这需求
-        switch (type){
-            case Video:
-                args.put("-f","mp4");
-                finalFormat = Context.MP4;
-                args.put("--path",dir.getAbsolutePath());
-                args.put("--output",uuid + ".%(ext)s");
-                cmd = Context.YT_DLP + BuildCmd.buildArgs(args) + links.get(0);
-                log.info("执行命令：{}",cmd);
-                process = Runtime.getRuntime().exec(cmd);
-                br = new BufferedReader(new InputStreamReader(process.getInputStream(), "UTF-8"));
-                while ((line=br.readLine()) != null){
-                    if (kill){return;}
-                    matcher = compile.matcher(line);
-                    if (matcher.find()) {
-                        matcherInfo();
-                        updateProgressStatus(Context.DOWNLOADING);
-                    }
-                }
-                exitCode = process.waitFor();
-                if (exitCode != 0){
-                    updateProgressStatus(Context.DOWNLOAD_ERR);
-                    return;
-                }else {
-                    updateProgressStatus(Context.COMPLETED);
-                }
-                break;
-            case Audio:
-                //m4a
-                 args.put("-f","m4a");
-                 finalFormat = Context.M4A;
-                args.put("--path",dir.getAbsolutePath());
-                args.put("--output",uuid + ".%(ext)s");
-                cmd = Context.YT_DLP + BuildCmd.buildArgs(args) + links.get(0);
-                log.info("执行命令：{}",cmd);
-                process = Runtime.getRuntime().exec(cmd);
-                br = new BufferedReader(new InputStreamReader(process.getInputStream(), "UTF-8"));
-                while ((line=br.readLine()) != null){
-                    if (kill){return;}
-                    matcher = compile.matcher(line);
-                    if (matcher.find()) {
-                        matcherInfo();
-                        updateProgressStatus(Context.DOWNLOADING);
-                    }
-                }
-                exitCode = process.waitFor();
-                if (exitCode != 0){
-                    updateProgressStatus(Context.DOWNLOAD_ERR);
-                    return;
-                }else {
-                    updateProgressStatus(Context.COMPLETED);
-                }
-                break;
+        switch (operation) {
+            case Single:
+                switch (type){
+                    case Video:
+                        args.put("-f","mp4");
+                        finalFormat = Context.MP4;
+                        args.put("--path",dir.getAbsolutePath());
+                        args.put("--output",uuid + ".%(ext)s");
+                        cmd = Context.YT_DLP + BuildCmd.buildArgs(args) + links.get(0);
+                        log.info("执行命令：{}",cmd);
+                        process = Runtime.getRuntime().exec(cmd);
+                        br = new BufferedReader(new InputStreamReader(process.getInputStream(), "UTF-8"));
+                        while ((line=br.readLine()) != null){
+                            if (kill){return;}
+                            matcher = compile.matcher(line);
+                            if (matcher.find()) {
+                                matcherInfo();
+                                updateProgressStatus(Context.DOWNLOADING);
+                            }
+                        }
+                        exitCode = process.waitFor();
+                        if (exitCode != 0){
+                            updateProgressStatus(Context.DOWNLOAD_ERR);
+                            return;
+                        }else {
+                            updateProgressStatus(Context.COMPLETED);
+                        }
+                        break;
+                    case Audio:
+                        //m4a
+                        args.put("-f","m4a");
+                        finalFormat = Context.M4A;
+                        args.put("--path",dir.getAbsolutePath());
+                        args.put("--output",uuid + ".%(ext)s");
+                        cmd = Context.YT_DLP + BuildCmd.buildArgs(args) + links.get(0);
+                        log.info("执行命令：{}",cmd);
+                        process = Runtime.getRuntime().exec(cmd);
+                        br = new BufferedReader(new InputStreamReader(process.getInputStream(), "UTF-8"));
+                        while ((line=br.readLine()) != null){
+                            if (kill){return;}
+                            matcher = compile.matcher(line);
+                            if (matcher.find()) {
+                                matcherInfo();
+                                updateProgressStatus(Context.DOWNLOADING);
+                            }
+                        }
+                        exitCode = process.waitFor();
+                        if (exitCode != 0){
+                            updateProgressStatus(Context.DOWNLOAD_ERR);
+                            return;
+                        }else {
+                            updateProgressStatus(Context.COMPLETED);
+                        }
+                        break;
 
-            case Customization:
-                args.put("--path",dir.getAbsolutePath());
-                args.put("--output",uuid + ".%(ext)s");
-                cmd = Context.YT_DLP + BuildCmd.buildArgs(args) + links.get(0);
-                finalFormat = Info.getExt(BuildCmd.buildArgs(args) + links.get(0));
-                log.info("获取扩展名：{}",finalFormat);
-                log.info("执行命令：{}",cmd);
-                process = Runtime.getRuntime().exec(cmd);
-                br= new BufferedReader(new InputStreamReader(process.getInputStream(), "UTF-8"));
-                while ((line=br.readLine()) != null){
-                    if (kill){return;}
-                    matcher = compile.matcher(line);
-                    if (matcher.find()) {
-                       matcherInfo();
-                        updateProgressStatus(Context.DOWNLOADING);
-                    }
+                    case Customization:
+                        args.put("--path",dir.getAbsolutePath());
+                        args.put("--output",uuid + ".%(ext)s");
+                        cmd = Context.YT_DLP + BuildCmd.buildArgs(args) + links.get(0);
+                        finalFormat = Info.getExt(BuildCmd.buildArgs(args) + links.get(0));
+                        log.info("获取扩展名：{}",finalFormat);
+                        log.info("执行命令：{}",cmd);
+                        process = Runtime.getRuntime().exec(cmd);
+                        br= new BufferedReader(new InputStreamReader(process.getInputStream(), "UTF-8"));
+                        while ((line=br.readLine()) != null){
+                            if (kill){return;}
+                            matcher = compile.matcher(line);
+                            if (matcher.find()) {
+                                matcherInfo();
+                                updateProgressStatus(Context.DOWNLOADING);
+                            }
+                        }
+                        exitCode = process.waitFor();
+                        if (exitCode != 0){
+                            updateProgressStatus(Context.DOWNLOAD_ERR);
+                            return;
+                        }else {
+                            updateProgressStatus(Context.COMPLETED);
+                        }
+                        break;
                 }
-                exitCode = process.waitFor();
-                if (exitCode != 0){
-                    updateProgressStatus(Context.DOWNLOAD_ERR);
-                    return;
-                }else {
-                    updateProgressStatus(Context.COMPLETED);
+                break;
+            case Merge:
+                switch (type){
+                    case Video:
+                        String fileName1 = uuid + Context.TMP + "1";
+                        String fileName2 = uuid + Context.TMP + "2";
+
+                        //下载第一条
+                        args.put("-f","mp4");
+                        finalFormat = Context.MP4;
+                        args.put("--path",dir.getAbsolutePath());
+                        args.put("--output",fileName1 + ".%(ext)s");
+                        cmd = Context.YT_DLP + BuildCmd.buildArgs(args) + links.get(0);
+                        log.info("执行命令：{}",cmd);
+                        process = Runtime.getRuntime().exec(cmd);
+                        br = new BufferedReader(new InputStreamReader(process.getInputStream(), "UTF-8"));
+                        while ((line=br.readLine()) != null){
+                            if (kill){return;}
+                            matcher = compile.matcher(line);
+                            if (matcher.find()) {
+                                matcherInfo();
+                                updateProgressStatus(Context.DOWNLOADING_PATH1);
+                            }
+                        }
+                        exitCode = process.waitFor();
+                        if (exitCode != 0){
+                            updateProgressStatus(Context.DOWNLOAD_PATH1_ERR);
+                            return;
+                        }else {
+                            updateProgressStatus(Context.COMPLETED_DOWNLOAD_PATH1);
+                        }
+
+                        //下载第二条
+                        args.put("-f","mp4");
+                        finalFormat = Context.MP4;
+                        args.put("--path",dir.getAbsolutePath());
+                        args.put("--output",fileName2 + ".%(ext)s");
+                        cmd = Context.YT_DLP + BuildCmd.buildArgs(args) + links.get(1);
+                        log.info("执行命令：{}",cmd);
+                        process = Runtime.getRuntime().exec(cmd);
+                        br = new BufferedReader(new InputStreamReader(process.getInputStream(), "UTF-8"));
+                        while ((line=br.readLine()) != null){
+                            if (kill){return;}
+                            matcher = compile.matcher(line);
+                            if (matcher.find()) {
+                                matcherInfo();
+                                updateProgressStatus(Context.DOWNLOADING_PATH2);
+                            }
+                        }
+                        exitCode = process.waitFor();
+                        if (exitCode != 0){
+                            updateProgressStatus(Context.DOWNLOAD_PATH2_ERR);
+                            return;
+                        }else {
+                            updateProgressStatus(Context.COMPLETED_DOWNLOAD_PATH2);
+                        }
+
+                        //合并
+                        List<File> files = Arrays.stream(dir.listFiles()).filter(file -> file.getName()
+                                .contains(fileName1) || file.getName().contains(fileName2)).collect(Collectors.toList());
+                        File output = new File(dir.getAbsolutePath() + File.separator + uuid + Context.FORMAT_MP4);
+                        if (files.size() < 2){
+                            updateProgressStatus(Context.MERGE_ERR);
+                            return;
+                        }
+                        cmd = BuildCmd.ffmpegMerge(files.get(0), files.get(1), output);
+                        log.info("执行命令:{}",cmd);
+                        updateProgressStatus(Context.MERGE_ING);
+                        process = Runtime.getRuntime().exec(cmd);
+                        exitCode = process.waitFor();
+                        if (exitCode != 0){
+                            updateProgressStatus(Context.MERGE_ERR);
+                            return;
+                        }else {
+                            updateProgressStatus(Context.COMPLETED);
+                        }
+                        log.info("exitCode:{}",exitCode);
+                        //删除文件
+                        FileUtils.forceDelete(files.get(0));
+                        FileUtils.forceDelete(files.get(1));
+                        break;
+                    case Audio:
+                        //m4a
+                        args.put("-f","m4a");
+                        finalFormat = Context.M4A;
+                        args.put("--path",dir.getAbsolutePath());
+                        args.put("--output",uuid + ".%(ext)s");
+                        cmd = Context.YT_DLP + BuildCmd.buildArgs(args) + links.get(0);
+                        log.info("执行命令：{}",cmd);
+                        process = Runtime.getRuntime().exec(cmd);
+                        br = new BufferedReader(new InputStreamReader(process.getInputStream(), "UTF-8"));
+                        while ((line=br.readLine()) != null){
+                            if (kill){return;}
+                            matcher = compile.matcher(line);
+                            if (matcher.find()) {
+                                matcherInfo();
+                                updateProgressStatus(Context.DOWNLOADING);
+                            }
+                        }
+                        exitCode = process.waitFor();
+                        if (exitCode != 0){
+                            updateProgressStatus(Context.DOWNLOAD_ERR);
+                            return;
+                        }else {
+                            updateProgressStatus(Context.COMPLETED);
+                        }
+                        break;
+
+                    case Customization:
+                        args.put("--path",dir.getAbsolutePath());
+                        args.put("--output",uuid + ".%(ext)s");
+                        cmd = Context.YT_DLP + BuildCmd.buildArgs(args) + links.get(0);
+                        finalFormat = Info.getExt(BuildCmd.buildArgs(args) + links.get(0));
+                        log.info("获取扩展名：{}",finalFormat);
+                        log.info("执行命令：{}",cmd);
+                        process = Runtime.getRuntime().exec(cmd);
+                        br= new BufferedReader(new InputStreamReader(process.getInputStream(), "UTF-8"));
+                        while ((line=br.readLine()) != null){
+                            if (kill){return;}
+                            matcher = compile.matcher(line);
+                            if (matcher.find()) {
+                                matcherInfo();
+                                updateProgressStatus(Context.DOWNLOADING);
+                            }
+                        }
+                        exitCode = process.waitFor();
+                        if (exitCode != 0){
+                            updateProgressStatus(Context.DOWNLOAD_ERR);
+                            return;
+                        }else {
+                            updateProgressStatus(Context.COMPLETED);
+                        }
+                        break;
                 }
                 break;
         }
+
         if (br != null){
             br.close();
         }
