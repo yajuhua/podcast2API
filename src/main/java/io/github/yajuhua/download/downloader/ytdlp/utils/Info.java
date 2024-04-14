@@ -1,6 +1,7 @@
 package io.github.yajuhua.download.downloader.ytdlp.utils;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import java.io.BufferedReader;
@@ -19,7 +20,15 @@ public class Info {
         Gson gson = new Gson();
         String json = cmd("yt-dlp --dump-single-json --skip-download " + optionAndUrl);
         JsonObject jsonObject = gson.fromJson(json, JsonObject.class);
-        String ext = jsonObject.get("ext").getAsString();
+        String ext = "";
+        if (jsonObject.has("ext")){
+            ext = jsonObject.get("ext").getAsString();
+        }else if (jsonObject.has("entries")){
+             JsonArray entries = jsonObject.get("entries").getAsJsonArray();
+             JsonObject entrie = entries.get(entries.size() - 1).getAsJsonObject();
+             JsonArray formats = entrie.get("formats").getAsJsonArray();
+             ext = formats.get(formats.size() - 1).getAsJsonObject().get("ext").getAsString();
+        }
         return ext;
     }
 
