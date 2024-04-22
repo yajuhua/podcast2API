@@ -2,7 +2,12 @@ package io.github.yajuhua.podcast2API.utils;
 
 import io.github.yajuhua.podcast2API.Channel;
 import io.github.yajuhua.podcast2API.Item;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+import org.testng.annotations.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
@@ -10,6 +15,7 @@ import java.util.List;
  * 构建xml页面
  */
 public class Xml {
+    private static String[] audioExt = {"mp3","m4a","wav"};
     public static String build(Channel channel, List<Item> items){
         Item item = null;
         if (items.size()>0){
@@ -31,11 +37,15 @@ public class Xml {
         xmlStr.append("\t\t<itunes:category text=\""+ channel.getCategory() +"\"/>\n");
 
         for (Item item1 : items) {
+            String enclosure = item1.getEnclosure();
+            String[] split = enclosure.split("\\.");
+            String ext = split[split.length - 1];
+            String type = Arrays.asList(audioExt).contains(ext)?"audio/" + ext:"video/" + ext;
             xmlStr.append("\t<item>\n");
             xmlStr.append("\t\t<pubDate>"+ TimeFormat.change(item1.getCreateTime()) +"</pubDate>\n");
             xmlStr.append("\t\t<title><![CDATA[ "+ item1.getTitle() +"  ]]></title>\n");
             xmlStr.append("\t\t<link><![CDATA[ "+ item1.getLink() +" ]]></link>\n");
-            xmlStr.append("\t\t<enclosure url=\""+ item1.getEnclosure() +"\" />\n");
+            xmlStr.append("\t\t<enclosure url=\""+ item1.getEnclosure() +"\" type=\"" + type + "\"/>\n");
             xmlStr.append("\t\t<itunes:duration>"+ TimeFormat.duration(item1.getDuration()) +"</itunes:duration>\n");
             xmlStr.append("\t\t<description><![CDATA[ "+ item1.getDescription() +" ]]></description>\n");
             xmlStr.append("\t\t<itunes:image href=\""+ item1.getImage() +"\"/>\n");
