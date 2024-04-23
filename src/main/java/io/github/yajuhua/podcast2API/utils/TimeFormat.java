@@ -42,22 +42,14 @@ public class TimeFormat {
      * @param s 秒数
      * @return
      */
-    public static String duration(int s){
+    public static String duration(int seconds) {
+        // 获取小时数、分钟数和剩余的秒数
+        long hours = seconds / 3600;
+        long minutes = (seconds % 3600) / 60;
+        long remainingSeconds = seconds % 60;
 
-        // 创建一个Duration对象，表示1200秒
-        Duration duration = Duration.ofSeconds(s);
-
-        // 获取总小时数、分钟数和秒数
-        long hours = s/60/60;
-        long minutes = s/60;
-        long remainingSeconds = s - (minutes*60);
-
-        // 创建一个LocalTime对象，表示时间部分
-        LocalTime time = LocalTime.of((int)hours, (int)minutes, (int)remainingSeconds);
-
-        // 使用DateTimeFormatter将LocalTime格式化为"00:20:00"的字符串
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-        String formattedTime = time.format(formatter);
+        // 使用字符串格式化将整数格式化为字符串
+        String formattedTime = String.format("%02d:%02d:%02d", hours, minutes, remainingSeconds);
 
         return formattedTime;
     }
