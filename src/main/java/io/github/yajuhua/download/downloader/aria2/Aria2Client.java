@@ -158,6 +158,16 @@ public class Aria2Client {
     }
 
     /**
+     * aria2.forceRemove([secret, ]gid)
+     * 此方法的行为与 aria2.remove() 类似，但是此方法删除下载而不执行任何需要时间的操作，例如首先联系 BitTorrent Tracker 注销下载。
+     * @return
+     * @throws Exception
+     */
+    public boolean forceRemove() throws Exception {
+        return invoke(this.Aria2_RPO_URL,"aria2.forceRemove",this.secret,this.gid).contains(this.gid);
+    }
+
+    /**
      * aria2.removeDownloadResult([secret, ]gid)
      * 此方法从内存中删除由 gid 表示的已完成／错误／已删除的下载。
      * 如果成功，此方法返回 OK。
