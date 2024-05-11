@@ -53,10 +53,8 @@ public class Nm3u8DlRe implements Runnable, Downloader {
     /**
      * 匹配下载日志正则表达式
      */
-    private final Pattern compile
-            = Pattern.compile("\\[0m\\s+(?<percent>\\d{1,2})%.*/" +
-            "(?<totalSize>.+?)\u001B.*\\[38;5;2m(?<speed>\\d+\\.\\d+K?M?G?)Bps." +
-            "*\\[38;5;12m(?<s1>\\d{2}):(?<s2>\\d{2}):?(?<s3>\\d{2})?");
+    private final Pattern compile = Pattern.compile("(?<percent>\\d+\\.\\d+)%.*/(?<totalSize>.+?)" +
+            "\u001B\\[0m.*\\[38;5;2m(?<speed>\\d+\\.\\d+K?M?G?)Bps.*\\[38;5;12m(?<s1>\\d{2}):(?<s2>\\d{2}):?(?<s3>\\d{2})?");
 
     /**
      * 开始下载
