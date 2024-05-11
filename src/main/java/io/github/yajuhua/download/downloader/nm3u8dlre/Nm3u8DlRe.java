@@ -14,6 +14,7 @@ import org.apache.commons.io.FilenameUtils;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -313,8 +314,13 @@ public class Nm3u8DlRe implements Runnable, Downloader {
             List<File> files = Arrays.stream(dir.listFiles()).filter(file -> file.getName()
                     .contains(uuid)).collect(Collectors.toList());
             for (File file : files) {
-                FileUtils.forceDelete(file);
+                try {
+                    FileUtils.forceDelete(file);
+                } catch (IOException e) {
+                    log.info("文件删除失败:{}",e.getMessage());
+                }
             }
+            this.updateProgressStatus(Context.REMOVE);
         }
     }
 
