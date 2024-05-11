@@ -13,12 +13,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 
@@ -103,7 +104,15 @@ public class Aria2c implements Runnable, Downloader {
                             break;
                     }
                     //删除下载的
-                    FileUtils.forceDelete(input);
+                    if (status == Context.REMOVE){
+                        input = new File(input.getAbsolutePath() + ".aria2");
+                    }
+                    try {
+                        FileUtils.forceDelete(input);
+                        log.info("删除文件:{}",input.getAbsolutePath());
+                    } catch (IOException e) {
+                        log.error("文件删除失败:{}",e.getMessage());
+                    }
                     break;
 
                 case Merge:
@@ -114,10 +123,9 @@ public class Aria2c implements Runnable, Downloader {
 
     private void download() throws Exception{
         //下载选择
-        Map options = new HashMap<>();
-        options.put("out",this.uuid + Context.ARIA2_DEFAULT_FORMAT);
-        options.put("dir",this.dir.getAbsolutePath().replace("\\","/"));
-        String response = aria2Client.addUri(Context.ARIA2C_RPC_SECRET, Arrays.asList(links.get(0)),options);
+        args.put("out",this.uuid + Context.ARIA2_DEFAULT_FORMAT);
+        args.put("dir",this.dir.getAbsolutePath().replace("\\","/"));
+        String response = aria2Client.addUri(Context.ARIA2C_RPC_SECRET, Arrays.asList(links.get(0)),args);
         log.info("aria2响应:{}",response);
 
         String[] keys = {"status","totalLength","completedLength","downloadSpeed","dir"};
@@ -165,6 +173,11 @@ public class Aria2c implements Runnable, Downloader {
                 updateProgressStatus(Context.COMPLETED_DOWNLOAD);
                 break;
             }
+            if (downloadStatus.contains("removed")){
+                status=Context.REMOVE;
+                updateProgressStatus(Context.REMOVE);
+                return;
+            }
         }
     }
 
@@ -175,13 +188,22 @@ public class Aria2c implements Runnable, Downloader {
     public void kill() throws Exception {
         log.info("结束下载：channelUuid:{} uuid:{}",channelUuid,uuid);
         if (aria2Client != null){
-            aria2Client.remove();
+            aria2Client.forceRemove();
         }
-        List<File> files = Arrays.stream(dir.listFiles()).filter(file ->
-                file.getName().contains(uuid)).collect(Collectors.toList());
+        List<File> files = Arrays.stream(dir.listFiles()).filter(new Predicate<File>() {
+            @Override
+            public boolean test(File file) {
+                String[] split = file.getName().split("\\.");
+                if (split.length > 0 && split[0].equals(uuid)) {
+                    return true;
+                }
+                return false;
+            }
+        }).collect(Collectors.toList());
         for (File file : files) {
             FileUtils.forceDelete(file);
         }
+        this.updateProgressStatus(Context.REMOVE);
     }
 
     /**
