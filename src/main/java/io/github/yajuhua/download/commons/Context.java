@@ -51,6 +51,7 @@ public class Context {
     public static final Integer DOWNLOAD_PATH1_ERR = 18;
     public static final Integer DOWNLOAD_PATH2_ERR = 19;
     public static final Integer UNKNOWN = -1;
+    public static final Integer REMOVE = 20; //移除
 
 
 
