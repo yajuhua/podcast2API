@@ -151,6 +151,7 @@ public class DownloadManager implements Runnable{
                         .equals(channelUuid)).collect(Collectors.toList());
         for (io.github.yajuhua.download.downloader.Downloader downloader : collect) {
             downloader.kill();
+            Thread.sleep(300);
         }
     }
 
