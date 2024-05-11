@@ -311,6 +311,7 @@ public class YtDlp implements Runnable, Downloader {
             } catch (IOException e) {
                 log.error("无法删除：{}"+e.getMessage());
             }
+            this.updateProgressStatus(Context.REMOVE);
         }
     }
 
