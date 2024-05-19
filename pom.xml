@@ -9,7 +9,7 @@
     <!--groupId需要为Sonatype的groupId-->
     <groupId>io.github.yajuhua</groupId>
     <artifactId>podcast2API</artifactId>
-    <version>2.1.5</version>
+    <version>2.1.6</version>
     <packaging>jar</packaging>
     <name>${project.groupId}:${project.artifactId}</name>
     <description>podcast2API</description>

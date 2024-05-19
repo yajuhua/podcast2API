@@ -21,17 +21,20 @@ public class DownloadManager implements Runnable{
     }
     private int maxThreads;
     private int corePoolSize;
+    private int queueSize;
     private List<io.github.yajuhua.download.downloader.Downloader> downloaderList = new ArrayList<>();
     private Set<DownloadProgress> downloadProgresses = new CopyOnWriteArraySet<>();
 
     public DownloadManager() {
         this.maxThreads = 3;
         this.corePoolSize = 3;
+        this.queueSize = 4;
     }
 
-    public DownloadManager(int maxThreads, int corePoolSize) {
+    public DownloadManager(int maxThreads, int corePoolSize, int queueSize) {
         this.maxThreads = maxThreads;
         this.corePoolSize = corePoolSize;
+        this.queueSize = queueSize;
     }
 
     public int getMaxThreads() {
@@ -48,6 +51,10 @@ public class DownloadManager implements Runnable{
 
     public void setCorePoolSize(int corePoolSize) {
         this.corePoolSize = corePoolSize;
+    }
+
+    public void setQueueSize(int queueSize) {
+        this.queueSize = queueSize;
     }
 
     /**
@@ -68,7 +75,7 @@ public class DownloadManager implements Runnable{
                 maxThreads,  //最大线程数有5个。   临时线程数=最大线程数-核心线程数=5-3=2
                 8,    //临时线程存活的时间8秒。 意思是临时线程8秒没有任务执行，就会被销毁掉。
                 TimeUnit.SECONDS,//时间单位（秒）
-                new ArrayBlockingQueue<>(4), //任务阻塞队列，没有来得及执行的任务在，任务队列中等待
+                new ArrayBlockingQueue<>(this.queueSize), //任务阻塞队列，没有来得及执行的任务在，任务队列中等待
                 Executors.defaultThreadFactory(), //用于创建线程的工厂对象
                 new ThreadPoolExecutor.CallerRunsPolicy() //拒绝策略
         );
