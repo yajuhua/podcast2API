@@ -10,62 +10,635 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 public class YtDlpChannelInfo {
-    @SerializedName(value="id")
+
+    @SerializedName("id")
     private String id;
-    @SerializedName(value="channel")
+    @SerializedName("channel")
     private String channel;
-    @SerializedName(value="channel_id")
+    @SerializedName("channel_id")
     private String channelId;
-    @SerializedName(value="title")
+    @SerializedName("title")
     private String title;
-    @SerializedName(value="availability")
+    @SerializedName("availability")
     private Object availability;
-    @SerializedName(value="channel_follower_count")
+    @SerializedName("channel_follower_count")
     private Object channelFollowerCount;
-    @SerializedName(value="description")
+    @SerializedName("description")
     private String description;
-    @SerializedName(value="tags")
+    @SerializedName("tags")
     private List<String> tags;
-    @SerializedName(value="thumbnails")
-    private List<Thumbnails> thumbnails;
-    @SerializedName(value="uploader_id")
+    @SerializedName("thumbnails")
+    private List<ThumbnailsDTO> thumbnails;
+    @SerializedName("uploader_id")
     private String uploaderId;
-    @SerializedName(value="uploader_url")
+    @SerializedName("uploader_url")
     private String uploaderUrl;
-    @SerializedName(value="modified_date")
+    @SerializedName("modified_date")
     private Object modifiedDate;
-    @SerializedName(value="view_count")
+    @SerializedName("view_count")
     private Object viewCount;
-    @SerializedName(value="playlist_count")
+    @SerializedName("playlist_count")
     private Object playlistCount;
-    @SerializedName(value="uploader")
+    @SerializedName("uploader")
     private String uploader;
-    @SerializedName(value="channel_url")
+    @SerializedName("channel_url")
     private String channelUrl;
-    @SerializedName(value="_type")
+    @SerializedName("_type")
     private String type;
-    @SerializedName(value="entries")
-    private List<Entries> entries;
-    @SerializedName(value="extractor_key")
+    @SerializedName("entries")
+    private List<EntriesDTO> entries;
+    @SerializedName("extractor_key")
     private String extractorKey;
-    @SerializedName(value="extractor")
+    @SerializedName("extractor")
     private String extractor;
-    @SerializedName(value="webpage_url")
+    @SerializedName("webpage_url")
     private String webpageUrl;
-    @SerializedName(value="original_url")
+    @SerializedName("original_url")
     private String originalUrl;
-    @SerializedName(value="webpage_url_basename")
+    @SerializedName("webpage_url_basename")
     private String webpageUrlBasename;
-    @SerializedName(value="webpage_url_domain")
+    @SerializedName("webpage_url_domain")
     private String webpageUrlDomain;
-    @SerializedName(value="release_year")
+    @SerializedName("release_year")
     private Object releaseYear;
-    @SerializedName(value="requested_entries")
+    @SerializedName("requested_entries")
     private List<Double> requestedEntries;
-    @SerializedName(value="epoch")
+    @SerializedName("epoch")
     private Double epoch;
-    @SerializedName(value="__files_to_move")
-    private FilesToMove filesToMove;
-    @SerializedName(value="_version")
-    private Version version;
+    @SerializedName("__files_to_move")
+    private FilesToMoveDTO filesToMove;
+    @SerializedName("_version")
+    private VersionDTO version;
+
+    @NoArgsConstructor
+    @Data
+    public static class FilesToMoveDTO {
+    }
+
+    @NoArgsConstructor
+    @Data
+    public static class VersionDTO {
+        @SerializedName("version")
+        private String version;
+        @SerializedName("current_git_head")
+        private Object currentGitHead;
+        @SerializedName("release_git_head")
+        private String releaseGitHead;
+        @SerializedName("repository")
+        private String repository;
+    }
+
+    @NoArgsConstructor
+    @Data
+    public static class ThumbnailsDTO {
+        @SerializedName("url")
+        private String url;
+        @SerializedName("height")
+        private Double height;
+        @SerializedName("width")
+        private Double width;
+        @SerializedName("id")
+        private String id;
+        @SerializedName("resolution")
+        private String resolution;
+        @SerializedName("preference")
+        private Double preference;
+    }
+
+    @NoArgsConstructor
+    @Data
+    public static class EntriesDTO {
+        @SerializedName("id")
+        private String id;
+        @SerializedName("title")
+        private String title;
+        @SerializedName("formats")
+        private List<FormatsDTO> formats;
+        @SerializedName("thumbnails")
+        private List<ThumbnailsDTO> thumbnails;
+        @SerializedName("thumbnail")
+        private String thumbnail;
+        @SerializedName("description")
+        private String description;
+        @SerializedName("channel_id")
+        private String channelId;
+        @SerializedName("channel_url")
+        private String channelUrl;
+        @SerializedName("duration")
+        private Double duration;
+        @SerializedName("view_count")
+        private Double viewCount;
+        @SerializedName("average_rating")
+        private Object averageRating;
+        @SerializedName("age_limit")
+        private Double ageLimit;
+        @SerializedName("webpage_url")
+        private String webpageUrl;
+        @SerializedName("categories")
+        private List<String> categories;
+        @SerializedName("tags")
+        private List<?> tags;
+        @SerializedName("playable_in_embed")
+        private Boolean playableInEmbed;
+        @SerializedName("live_status")
+        private String liveStatus;
+        @SerializedName("release_timestamp")
+        private Object releaseTimestamp;
+        @SerializedName("_format_sort_fields")
+        private List<String> formatSortFields;
+        @SerializedName("automatic_captions")
+        private EntriesDTO.AutomaticCaptionsDTO automaticCaptions;
+        @SerializedName("subtitles")
+        private EntriesDTO.SubtitlesDTO subtitles;
+        @SerializedName("comment_count")
+        private Double commentCount;
+        @SerializedName("chapters")
+        private Object chapters;
+        @SerializedName("heatmap")
+        private Object heatmap;
+        @SerializedName("like_count")
+        private Double likeCount;
+        @SerializedName("channel")
+        private String channel;
+        @SerializedName("channel_follower_count")
+        private Double channelFollowerCount;
+        @SerializedName("channel_is_verified")
+        private Boolean channelIsVerified;
+        @SerializedName("uploader")
+        private String uploader;
+        @SerializedName("uploader_id")
+        private String uploaderId;
+        @SerializedName("uploader_url")
+        private String uploaderUrl;
+        @SerializedName("upload_date")
+        private String uploadDate;
+        @SerializedName("availability")
+        private String availability;
+        @SerializedName("original_url")
+        private String originalUrl;
+        @SerializedName("webpage_url_basename")
+        private String webpageUrlBasename;
+        @SerializedName("webpage_url_domain")
+        private String webpageUrlDomain;
+        @SerializedName("extractor")
+        private String extractor;
+        @SerializedName("extractor_key")
+        private String extractorKey;
+        @SerializedName("playlist_count")
+        private Object playlistCount;
+        @SerializedName("playlist")
+        private String playlist;
+        @SerializedName("playlist_id")
+        private String playlistId;
+        @SerializedName("playlist_title")
+        private String playlistTitle;
+        @SerializedName("playlist_uploader")
+        private String playlistUploader;
+        @SerializedName("playlist_uploader_id")
+        private String playlistUploaderId;
+        @SerializedName("n_entries")
+        private Double nEntries;
+        @SerializedName("playlist_index")
+        private Double playlistIndex;
+        @SerializedName("__last_playlist_index")
+        private Double lastPlaylistIndex;
+        @SerializedName("playlist_autonumber")
+        private Double playlistAutonumber;
+        @SerializedName("display_id")
+        private String displayId;
+        @SerializedName("fulltitle")
+        private String fulltitle;
+        @SerializedName("duration_string")
+        private String durationString;
+        @SerializedName("release_year")
+        private Object releaseYear;
+        @SerializedName("is_live")
+        private Boolean isLive;
+        @SerializedName("was_live")
+        private Boolean wasLive;
+        @SerializedName("requested_subtitles")
+        private Object requestedSubtitles;
+        @SerializedName("_has_drm")
+        private Object hasDrm;
+        @SerializedName("epoch")
+        private Double epoch;
+        @SerializedName("requested_downloads")
+        private List<RequestedDownloadsDTO> requestedDownloads;
+        @SerializedName("requested_formats")
+        private List<RequestedFormatsDTO> requestedFormats;
+        @SerializedName("format")
+        private String format;
+        @SerializedName("format_id")
+        private String formatId;
+        @SerializedName("ext")
+        private String ext;
+        @SerializedName("protocol")
+        private String protocol;
+        @SerializedName("language")
+        private Object language;
+        @SerializedName("format_note")
+        private String formatNote;
+        @SerializedName("filesize_approx")
+        private Double filesizeApprox;
+        @SerializedName("tbr")
+        private Double tbr;
+        @SerializedName("width")
+        private Double width;
+        @SerializedName("height")
+        private Double height;
+        @SerializedName("resolution")
+        private String resolution;
+        @SerializedName("fps")
+        private Double fps;
+        @SerializedName("dynamic_range")
+        private String dynamicRange;
+        @SerializedName("vcodec")
+        private String vcodec;
+        @SerializedName("vbr")
+        private Double vbr;
+        @SerializedName("stretched_ratio")
+        private Object stretchedRatio;
+        @SerializedName("aspect_ratio")
+        private Double aspectRatio;
+        @SerializedName("acodec")
+        private String acodec;
+        @SerializedName("abr")
+        private Double abr;
+        @SerializedName("asr")
+        private Double asr;
+        @SerializedName("audio_channels")
+        private Double audioChannels;
+
+        @NoArgsConstructor
+        @Data
+        public static class AutomaticCaptionsDTO {
+        }
+
+        @NoArgsConstructor
+        @Data
+        public static class SubtitlesDTO {
+        }
+
+        @NoArgsConstructor
+        @Data
+        public static class FormatsDTO {
+            @SerializedName("format_id")
+            private String formatId;
+            @SerializedName("format_note")
+            private String formatNote;
+            @SerializedName("ext")
+            private String ext;
+            @SerializedName("protocol")
+            private String protocol;
+            @SerializedName("acodec")
+            private String acodec;
+            @SerializedName("vcodec")
+            private String vcodec;
+            @SerializedName("url")
+            private String url;
+            @SerializedName("width")
+            private Double width;
+            @SerializedName("height")
+            private Double height;
+            @SerializedName("fps")
+            private Double fps;
+            @SerializedName("rows")
+            private Double rows;
+            @SerializedName("columns")
+            private Double columns;
+            @SerializedName("fragments")
+            private List<FragmentsDTO> fragments;
+            @SerializedName("resolution")
+            private String resolution;
+            @SerializedName("aspect_ratio")
+            private Double aspectRatio;
+            @SerializedName("filesize_approx")
+            private Object filesizeApprox;
+            @SerializedName("http_headers")
+            private EntriesDTO.FormatsDTO.HttpHeadersDTO httpHeaders;
+            @SerializedName("audio_ext")
+            private String audioExt;
+            @SerializedName("video_ext")
+            private String videoExt;
+            @SerializedName("vbr")
+            private Double vbr;
+            @SerializedName("abr")
+            private Double abr;
+            @SerializedName("tbr")
+            private Object tbr;
+            @SerializedName("format")
+            private String format;
+            @SerializedName("format_index")
+            private Object formatIndex;
+            @SerializedName("manifest_url")
+            private String manifestUrl;
+            @SerializedName("language")
+            private Object language;
+            @SerializedName("preference")
+            private Object preference;
+            @SerializedName("quality")
+            private Double quality;
+            @SerializedName("has_drm")
+            private Boolean hasDrm;
+            @SerializedName("source_preference")
+            private Double sourcePreference;
+            @SerializedName("asr")
+            private Double asr;
+            @SerializedName("filesize")
+            private Double filesize;
+            @SerializedName("audio_channels")
+            private Double audioChannels;
+            @SerializedName("language_preference")
+            private Double languagePreference;
+            @SerializedName("dynamic_range")
+            private Object dynamicRange;
+            @SerializedName("container")
+            private String container;
+            @SerializedName("downloader_options")
+            private EntriesDTO.FormatsDTO.DownloaderOptionsDTO downloaderOptions;
+
+            @NoArgsConstructor
+            @Data
+            public static class HttpHeadersDTO {
+                @SerializedName("User-Agent")
+                private String userAgent;
+                @SerializedName("Accept")
+                private String accept;
+                @SerializedName("Accept-Language")
+                private String acceptLanguage;
+                @SerializedName("Sec-Fetch-Mode")
+                private String secFetchMode;
+            }
+
+            @NoArgsConstructor
+            @Data
+            public static class DownloaderOptionsDTO {
+                @SerializedName("http_chunk_size")
+                private Double httpChunkSize;
+            }
+
+            @NoArgsConstructor
+            @Data
+            public static class FragmentsDTO {
+                @SerializedName("url")
+                private String url;
+                @SerializedName("duration")
+                private Double duration;
+            }
+        }
+
+        @NoArgsConstructor
+        @Data
+        public static class ThumbnailsDTO {
+            @SerializedName("url")
+            private String url;
+            @SerializedName("preference")
+            private Double preference;
+            @SerializedName("id")
+            private String id;
+            @SerializedName("height")
+            private Double height;
+            @SerializedName("width")
+            private Double width;
+            @SerializedName("resolution")
+            private String resolution;
+        }
+
+        @NoArgsConstructor
+        @Data
+        public static class RequestedDownloadsDTO {
+            @SerializedName("requested_formats")
+            private List<RequestedFormatsDTO> requestedFormats;
+            @SerializedName("format")
+            private String format;
+            @SerializedName("format_id")
+            private String formatId;
+            @SerializedName("ext")
+            private String ext;
+            @SerializedName("protocol")
+            private String protocol;
+            @SerializedName("format_note")
+            private String formatNote;
+            @SerializedName("filesize_approx")
+            private Double filesizeApprox;
+            @SerializedName("tbr")
+            private Double tbr;
+            @SerializedName("width")
+            private Double width;
+            @SerializedName("height")
+            private Double height;
+            @SerializedName("resolution")
+            private String resolution;
+            @SerializedName("fps")
+            private Double fps;
+            @SerializedName("dynamic_range")
+            private String dynamicRange;
+            @SerializedName("vcodec")
+            private String vcodec;
+            @SerializedName("vbr")
+            private Double vbr;
+            @SerializedName("aspect_ratio")
+            private Double aspectRatio;
+            @SerializedName("acodec")
+            private String acodec;
+            @SerializedName("abr")
+            private Double abr;
+            @SerializedName("asr")
+            private Double asr;
+            @SerializedName("audio_channels")
+            private Double audioChannels;
+            @SerializedName("_filename")
+            private String _filename;
+            @SerializedName("filename")
+            private String filename;
+            @SerializedName("__write_download_archive")
+            private Boolean writeDownloadArchive;
+
+            @NoArgsConstructor
+            @Data
+            public static class RequestedFormatsDTO {
+                @SerializedName("format_id")
+                private String formatId;
+                @SerializedName("format_index")
+                private Object formatIndex;
+                @SerializedName("url")
+                private String url;
+                @SerializedName("manifest_url")
+                private String manifestUrl;
+                @SerializedName("tbr")
+                private Double tbr;
+                @SerializedName("ext")
+                private String ext;
+                @SerializedName("fps")
+                private Double fps;
+                @SerializedName("protocol")
+                private String protocol;
+                @SerializedName("preference")
+                private Object preference;
+                @SerializedName("quality")
+                private Double quality;
+                @SerializedName("has_drm")
+                private Boolean hasDrm;
+                @SerializedName("width")
+                private Double width;
+                @SerializedName("height")
+                private Double height;
+                @SerializedName("vcodec")
+                private String vcodec;
+                @SerializedName("acodec")
+                private String acodec;
+                @SerializedName("dynamic_range")
+                private String dynamicRange;
+                @SerializedName("source_preference")
+                private Double sourcePreference;
+                @SerializedName("format_note")
+                private String formatNote;
+                @SerializedName("resolution")
+                private String resolution;
+                @SerializedName("aspect_ratio")
+                private Double aspectRatio;
+                @SerializedName("http_headers")
+                private EntriesDTO.RequestedDownloadsDTO.RequestedFormatsDTO.HttpHeadersDTO httpHeaders;
+                @SerializedName("video_ext")
+                private String videoExt;
+                @SerializedName("audio_ext")
+                private String audioExt;
+                @SerializedName("abr")
+                private Double abr;
+                @SerializedName("vbr")
+                private Double vbr;
+                @SerializedName("format")
+                private String format;
+                @SerializedName("asr")
+                private Double asr;
+                @SerializedName("filesize")
+                private Double filesize;
+                @SerializedName("audio_channels")
+                private Double audioChannels;
+                @SerializedName("filesize_approx")
+                private Double filesizeApprox;
+                @SerializedName("language")
+                private Object language;
+                @SerializedName("language_preference")
+                private Double languagePreference;
+                @SerializedName("container")
+                private String container;
+                @SerializedName("downloader_options")
+                private EntriesDTO.RequestedDownloadsDTO.RequestedFormatsDTO.DownloaderOptionsDTO downloaderOptions;
+
+                @NoArgsConstructor
+                @Data
+                public static class HttpHeadersDTO {
+                    @SerializedName("User-Agent")
+                    private String userAgent;
+                    @SerializedName("Accept")
+                    private String accept;
+                    @SerializedName("Accept-Language")
+                    private String acceptLanguage;
+                    @SerializedName("Sec-Fetch-Mode")
+                    private String secFetchMode;
+                }
+
+                @NoArgsConstructor
+                @Data
+                public static class DownloaderOptionsDTO {
+                    @SerializedName("http_chunk_size")
+                    private Double httpChunkSize;
+                }
+            }
+        }
+
+        @NoArgsConstructor
+        @Data
+        public static class RequestedFormatsDTO {
+            @SerializedName("format_id")
+            private String formatId;
+            @SerializedName("format_index")
+            private Object formatIndex;
+            @SerializedName("url")
+            private String url;
+            @SerializedName("manifest_url")
+            private String manifestUrl;
+            @SerializedName("tbr")
+            private Double tbr;
+            @SerializedName("ext")
+            private String ext;
+            @SerializedName("fps")
+            private Double fps;
+            @SerializedName("protocol")
+            private String protocol;
+            @SerializedName("preference")
+            private Object preference;
+            @SerializedName("quality")
+            private Double quality;
+            @SerializedName("has_drm")
+            private Boolean hasDrm;
+            @SerializedName("width")
+            private Double width;
+            @SerializedName("height")
+            private Double height;
+            @SerializedName("vcodec")
+            private String vcodec;
+            @SerializedName("acodec")
+            private String acodec;
+            @SerializedName("dynamic_range")
+            private String dynamicRange;
+            @SerializedName("source_preference")
+            private Double sourcePreference;
+            @SerializedName("format_note")
+            private String formatNote;
+            @SerializedName("resolution")
+            private String resolution;
+            @SerializedName("aspect_ratio")
+            private Double aspectRatio;
+            @SerializedName("http_headers")
+            private EntriesDTO.RequestedFormatsDTO.HttpHeadersDTO httpHeaders;
+            @SerializedName("video_ext")
+            private String videoExt;
+            @SerializedName("audio_ext")
+            private String audioExt;
+            @SerializedName("abr")
+            private Double abr;
+            @SerializedName("vbr")
+            private Double vbr;
+            @SerializedName("format")
+            private String format;
+            @SerializedName("asr")
+            private Double asr;
+            @SerializedName("filesize")
+            private Double filesize;
+            @SerializedName("audio_channels")
+            private Double audioChannels;
+            @SerializedName("filesize_approx")
+            private Double filesizeApprox;
+            @SerializedName("language")
+            private Object language;
+            @SerializedName("language_preference")
+            private Double languagePreference;
+            @SerializedName("container")
+            private String container;
+            @SerializedName("downloader_options")
+            private EntriesDTO.RequestedFormatsDTO.DownloaderOptionsDTO downloaderOptions;
+
+            @NoArgsConstructor
+            @Data
+            public static class HttpHeadersDTO {
+                @SerializedName("User-Agent")
+                private String userAgent;
+                @SerializedName("Accept")
+                private String accept;
+                @SerializedName("Accept-Language")
+                private String acceptLanguage;
+                @SerializedName("Sec-Fetch-Mode")
+                private String secFetchMode;
+            }
+
+            @NoArgsConstructor
+            @Data
+            public static class DownloaderOptionsDTO {
+                @SerializedName("http_chunk_size")
+                private Double httpChunkSize;
+            }
+        }
+    }
 }
