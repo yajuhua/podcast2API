@@ -27,13 +27,13 @@ public class YtDlpItemInfo {
     @SerializedName("channel_url")
     private String channelUrl;
     @SerializedName("duration")
-    private Integer duration;
+    private Double duration;
     @SerializedName("view_count")
-    private Integer viewCount;
+    private Double viewCount;
     @SerializedName("average_rating")
     private Object averageRating;
     @SerializedName("age_limit")
-    private Integer ageLimit;
+    private Double ageLimit;
     @SerializedName("webpage_url")
     private String webpageUrl;
     @SerializedName("categories")
@@ -53,17 +53,17 @@ public class YtDlpItemInfo {
     @SerializedName("subtitles")
     private SubtitlesDTO subtitles;
     @SerializedName("comment_count")
-    private Integer commentCount;
+    private Double commentCount;
     @SerializedName("chapters")
     private Object chapters;
     @SerializedName("heatmap")
     private Object heatmap;
     @SerializedName("like_count")
-    private Integer likeCount;
+    private Double likeCount;
     @SerializedName("channel")
     private String channel;
     @SerializedName("channel_follower_count")
-    private Integer channelFollowerCount;
+    private Double channelFollowerCount;
     @SerializedName("channel_is_verified")
     private Boolean channelIsVerified;
     @SerializedName("uploader")
@@ -107,7 +107,7 @@ public class YtDlpItemInfo {
     @SerializedName("_has_drm")
     private Object hasDrm;
     @SerializedName("epoch")
-    private Integer epoch;
+    private Double epoch;
     @SerializedName("requested_downloads")
     private List<RequestedDownloadsDTO> requestedDownloads;
     @SerializedName("requested_formats")
@@ -125,13 +125,13 @@ public class YtDlpItemInfo {
     @SerializedName("format_note")
     private String formatNote;
     @SerializedName("filesize_approx")
-    private Integer filesizeApprox;
+    private Double filesizeApprox;
     @SerializedName("tbr")
     private Double tbr;
     @SerializedName("width")
-    private Integer width;
+    private Double width;
     @SerializedName("height")
-    private Integer height;
+    private Double height;
     @SerializedName("resolution")
     private String resolution;
     @SerializedName("fps")
@@ -153,7 +153,7 @@ public class YtDlpItemInfo {
     @SerializedName("asr")
     private Double asr;
     @SerializedName("audio_channels")
-    private Integer audioChannels;
+    private Double audioChannels;
     @SerializedName("_type")
     private String type;
     @SerializedName("_version")
@@ -200,15 +200,15 @@ public class YtDlpItemInfo {
         @SerializedName("url")
         private String url;
         @SerializedName("width")
-        private Integer width;
+        private Double width;
         @SerializedName("height")
-        private Integer height;
+        private Double height;
         @SerializedName("fps")
         private Double fps;
         @SerializedName("rows")
-        private Integer rows;
+        private Double rows;
         @SerializedName("columns")
-        private Integer columns;
+        private Double columns;
         @SerializedName("fragments")
         private List<FragmentsDTO> fragments;
         @SerializedName("resolution")
@@ -244,15 +244,15 @@ public class YtDlpItemInfo {
         @SerializedName("has_drm")
         private Boolean hasDrm;
         @SerializedName("source_preference")
-        private Integer sourcePreference;
+        private Double sourcePreference;
         @SerializedName("asr")
         private Double asr;
         @SerializedName("filesize")
-        private Integer filesize;
+        private Double filesize;
         @SerializedName("audio_channels")
-        private Integer audioChannels;
+        private Double audioChannels;
         @SerializedName("language_preference")
-        private Integer languagePreference;
+        private Double languagePreference;
         @SerializedName("dynamic_range")
         private Object dynamicRange;
         @SerializedName("container")
@@ -277,7 +277,7 @@ public class YtDlpItemInfo {
         @Data
         public static class DownloaderOptionsDTO {
             @SerializedName("http_chunk_size")
-            private Integer httpChunkSize;
+            private Double httpChunkSize;
         }
 
         @NoArgsConstructor
@@ -296,13 +296,13 @@ public class YtDlpItemInfo {
         @SerializedName("url")
         private String url;
         @SerializedName("preference")
-        private Integer preference;
+        private Double preference;
         @SerializedName("id")
         private String id;
         @SerializedName("height")
-        private Integer height;
+        private Double height;
         @SerializedName("width")
-        private Integer width;
+        private Double width;
         @SerializedName("resolution")
         private String resolution;
     }
@@ -323,13 +323,13 @@ public class YtDlpItemInfo {
         @SerializedName("format_note")
         private String formatNote;
         @SerializedName("filesize_approx")
-        private Integer filesizeApprox;
+        private Double filesizeApprox;
         @SerializedName("tbr")
         private Double tbr;
         @SerializedName("width")
-        private Integer width;
+        private Double width;
         @SerializedName("height")
-        private Integer height;
+        private Double height;
         @SerializedName("resolution")
         private String resolution;
         @SerializedName("fps")
@@ -349,7 +349,7 @@ public class YtDlpItemInfo {
         @SerializedName("asr")
         private Double asr;
         @SerializedName("audio_channels")
-        private Integer audioChannels;
+        private Double audioChannels;
         @SerializedName("_filename")
         private String _filename;
         @SerializedName("filename")
@@ -379,13 +379,13 @@ public class YtDlpItemInfo {
             @SerializedName("preference")
             private Object preference;
             @SerializedName("quality")
-            private Integer quality;
+            private Double quality;
             @SerializedName("has_drm")
             private Boolean hasDrm;
             @SerializedName("width")
-            private Integer width;
+            private Double width;
             @SerializedName("height")
-            private Integer height;
+            private Double height;
             @SerializedName("vcodec")
             private String vcodec;
             @SerializedName("acodec")
@@ -393,7 +393,7 @@ public class YtDlpItemInfo {
             @SerializedName("dynamic_range")
             private String dynamicRange;
             @SerializedName("source_preference")
-            private Integer sourcePreference;
+            private Double sourcePreference;
             @SerializedName("format_note")
             private String formatNote;
             @SerializedName("resolution")
@@ -415,15 +415,15 @@ public class YtDlpItemInfo {
             @SerializedName("asr")
             private Double asr;
             @SerializedName("filesize")
-            private Integer filesize;
+            private Double filesize;
             @SerializedName("audio_channels")
-            private Integer audioChannels;
+            private Double audioChannels;
             @SerializedName("filesize_approx")
-            private Integer filesizeApprox;
+            private Double filesizeApprox;
             @SerializedName("language")
             private Object language;
             @SerializedName("language_preference")
-            private Integer languagePreference;
+            private Double languagePreference;
             @SerializedName("container")
             private String container;
             @SerializedName("downloader_options")
@@ -446,7 +446,7 @@ public class YtDlpItemInfo {
             @Data
             public static class DownloaderOptionsDTO {
                 @SerializedName("http_chunk_size")
-                private Integer httpChunkSize;
+                private Double httpChunkSize;
             }
         }
     }
@@ -473,13 +473,13 @@ public class YtDlpItemInfo {
         @SerializedName("preference")
         private Object preference;
         @SerializedName("quality")
-        private Integer quality;
+        private Double quality;
         @SerializedName("has_drm")
         private Boolean hasDrm;
         @SerializedName("width")
-        private Integer width;
+        private Double width;
         @SerializedName("height")
-        private Integer height;
+        private Double height;
         @SerializedName("vcodec")
         private String vcodec;
         @SerializedName("acodec")
@@ -487,7 +487,7 @@ public class YtDlpItemInfo {
         @SerializedName("dynamic_range")
         private String dynamicRange;
         @SerializedName("source_preference")
-        private Integer sourcePreference;
+        private Double sourcePreference;
         @SerializedName("format_note")
         private String formatNote;
         @SerializedName("resolution")
@@ -509,15 +509,15 @@ public class YtDlpItemInfo {
         @SerializedName("asr")
         private Double asr;
         @SerializedName("filesize")
-        private Integer filesize;
+        private Double filesize;
         @SerializedName("audio_channels")
-        private Integer audioChannels;
+        private Double audioChannels;
         @SerializedName("filesize_approx")
-        private Integer filesizeApprox;
+        private Double filesizeApprox;
         @SerializedName("language")
         private Object language;
         @SerializedName("language_preference")
-        private Integer languagePreference;
+        private Double languagePreference;
         @SerializedName("container")
         private String container;
         @SerializedName("downloader_options")
@@ -540,7 +540,7 @@ public class YtDlpItemInfo {
         @Data
         public static class DownloaderOptionsDTO {
             @SerializedName("http_chunk_size")
-            private Integer httpChunkSize;
+            private Double httpChunkSize;
         }
     }
 }
