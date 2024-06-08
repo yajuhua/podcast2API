@@ -324,19 +324,7 @@ public class YtDlp implements Runnable, Downloader {
      */
     public void kill(){
         kill=true;
-        if (dir != null){
-            //删除修改文件
-            List<File> files = Arrays.stream(dir.listFiles()).filter(file -> file.getName()
-                    .contains(uuid)).collect(Collectors.toList());
-            try {
-                for (File file : files) {
-                    FileUtils.forceDelete(file);
-                }
-            } catch (IOException e) {
-                log.error("无法删除：{}"+e.getMessage());
-            }
-            this.updateProgressStatus(Context.REMOVE);
-        }
+        this.updateProgressStatus(Context.REMOVE);
     }
 
     /**

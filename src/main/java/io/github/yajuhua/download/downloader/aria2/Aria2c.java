@@ -190,19 +190,6 @@ public class Aria2c implements Runnable, Downloader {
         if (aria2Client != null){
             aria2Client.forceRemove();
         }
-        List<File> files = Arrays.stream(dir.listFiles()).filter(new Predicate<File>() {
-            @Override
-            public boolean test(File file) {
-                String[] split = file.getName().split("\\.");
-                if (split.length > 0 && split[0].equals(uuid)) {
-                    return true;
-                }
-                return false;
-            }
-        }).collect(Collectors.toList());
-        for (File file : files) {
-            FileUtils.forceDelete(file);
-        }
         this.updateProgressStatus(Context.REMOVE);
     }
 

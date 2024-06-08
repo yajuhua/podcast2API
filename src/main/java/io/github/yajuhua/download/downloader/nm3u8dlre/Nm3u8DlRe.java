@@ -309,15 +309,6 @@ public class Nm3u8DlRe implements Runnable, Downloader {
     public void kill() throws Exception {
         if (dir != null){
             kill = true;
-            List<File> files = Arrays.stream(dir.listFiles()).filter(file -> file.getName()
-                    .contains(uuid)).collect(Collectors.toList());
-            for (File file : files) {
-                try {
-                    FileUtils.forceDelete(file);
-                } catch (IOException e) {
-                    log.info("文件删除失败:{}",e.getMessage());
-                }
-            }
             this.updateProgressStatus(Context.REMOVE);
         }
     }
