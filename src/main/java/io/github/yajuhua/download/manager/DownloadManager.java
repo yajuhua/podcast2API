@@ -24,6 +24,7 @@ public class DownloadManager implements Runnable{
     private int queueSize;
     private List<io.github.yajuhua.download.downloader.Downloader> downloaderList = new ArrayList<>();
     private Set<DownloadProgress> downloadProgresses = new CopyOnWriteArraySet<>();
+    private ThreadPoolExecutor pool;
 
     public DownloadManager() {
         this.maxThreads = 3;
@@ -70,7 +71,7 @@ public class DownloadManager implements Runnable{
      */
     public void startDownload() throws Exception{
 
-        ExecutorService pool = new ThreadPoolExecutor(
+         pool = new ThreadPoolExecutor(
                 corePoolSize,    //核心线程数有3个
                 maxThreads,  //最大线程数有5个。   临时线程数=最大线程数-核心线程数=5-3=2
                 8,    //临时线程存活的时间8秒。 意思是临时线程8秒没有任务执行，就会被销毁掉。
@@ -135,6 +136,9 @@ public class DownloadManager implements Runnable{
         for (io.github.yajuhua.download.downloader.Downloader downloader : downloaderList) {
             downloader.kill();
         }
+        //取消所有队列
+        pool.shutdownNow();
+        pool.purge();
     }
 
     /**
