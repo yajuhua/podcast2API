@@ -25,6 +25,7 @@ public class DownloadManager implements Runnable{
     private List<io.github.yajuhua.download.downloader.Downloader> downloaderList = new ArrayList<>();
     private Set<DownloadProgress> downloadProgresses = new CopyOnWriteArraySet<>();
     private ThreadPoolExecutor pool;
+    private boolean isKillAll;
 
     public DownloadManager() {
         this.maxThreads = 3;
@@ -82,6 +83,7 @@ public class DownloadManager implements Runnable{
         );
 
         for (io.github.yajuhua.download.downloader.Downloader downloader : downloaderList) {
+            if (isKillAll){break;}
             downloader.callback(new DownloadProgressCallback() {
                 @Override
                 public void onProgressUpdate(String channelUuid, String uuid, Integer status, double downloadProgress, long downloadTimeLeft
@@ -107,7 +109,13 @@ public class DownloadManager implements Runnable{
             pool.execute((Runnable) downloader);//加入线程池
             Thread.sleep(2000);//等待两秒，
         }
-        pool.shutdown();;
+        pool.shutdown();
+        if (isKillAll){
+            //停止队列并清空
+            pool.shutdownNow();
+            pool.purge();
+        }
+
     }
 
     @Override
@@ -133,12 +141,18 @@ public class DownloadManager implements Runnable{
      * 结束所有下载
      */
     public void killAll() throws Exception{
+        //设置标志
+        isKillAll = true;
+        //挨个停止下载
         for (io.github.yajuhua.download.downloader.Downloader downloader : downloaderList) {
             downloader.kill();
         }
-        //取消所有队列
-        pool.shutdownNow();
-        pool.purge();
+        //清空队列并停止
+        if (pool != null){
+            pool.shutdownNow();
+            pool.purge();;
+        }
+
     }
 
     /**
