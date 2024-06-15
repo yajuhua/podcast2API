@@ -53,6 +53,15 @@ public class Context {
     public static final Integer UNKNOWN = -1;
     public static final Integer REMOVE = 20; //移除
 
+    public static final Integer ALIST_UPLOADING = 21;//alist正在上传
+    public static final Integer ALIST_UPLOAD_ERR = 22;//alist上传失败
+    public static final Integer ALIST_CONNECT_ERR = 23;//alist连接失败
+    public static final Integer ALIST_UPLOAD_SUCCESS = 24;//alist上传成功
+    public static final Integer ALIST_FILE_NOT_FOUND = 25;//alist文件找不到
+    public static final Integer ALIST_FILE_DELETE_ERR = 26;//文件删除错误
+    public static final Integer ALIST_UPLOAD_CANCEL = 27;//取消上传
+
+
 
 
 
