@@ -3,11 +3,14 @@ package io.github.yajuhua.download.downloader.ytdlp.utils;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import lombok.extern.slf4j.Slf4j;
+import org.testng.annotations.Test;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+@Slf4j
 public class Info {
 
     /**
@@ -43,10 +46,20 @@ public class Info {
             try {
                 Process p = Runtime.getRuntime().exec(command);
                 //解决中文乱码 GBK是汉字编码
-                br = new BufferedReader(new InputStreamReader(p.getInputStream(),"UTF-8"));//解决中文乱码 GBK是汉字编码//二维码会乱码
+                br = new BufferedReader(new InputStreamReader(p.getInputStream(),"UTF-8"));
                 String line = null;
                 while ((line = br.readLine()) != null) {
                     result+=line;
+                }
+                int exitCode = p.waitFor();
+                if (exitCode != 0){
+                    result = "";
+                    br = new BufferedReader(new InputStreamReader(p.getErrorStream(),"UTF-8"));
+                    while ((line = br.readLine()) != null) {
+                        result+=line;
+                    }
+                    log.error("执行异常：{}",result);
+                    return null;
                 }
             } catch (Exception e) {
                 e.printStackTrace();

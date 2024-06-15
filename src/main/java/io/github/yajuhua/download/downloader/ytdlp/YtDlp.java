@@ -62,6 +62,7 @@ public class YtDlp implements Runnable, Downloader {
                     "at\\s+(?<speed>\\d+\\.\\d+K?M?G?)iB/s\\s+ETA\\s+(?<s1>\\d{2}):(?<s2>\\d{2}):?(?<s3>\\d{2})?");
 
     public void startDownload()throws Exception {
+        //TODO 存储空间
         log.info("operation:{}", operation.toString());
         log.info("type:{}", type.toString());
         Gson gson = new Gson();
@@ -70,6 +71,11 @@ public class YtDlp implements Runnable, Downloader {
             case Single:
                 String json = Info.cmd("yt-dlp -J " + links.get(0));
                 YtDlpItemInfo ytDlpItemInfo = gson.fromJson(json, YtDlpItemInfo.class);
+                if (json == null || ytDlpItemInfo == null){
+                    log.error("解析失败：{}",links.get(0),json);
+                    updateProgressStatus(Context.DOWNLOAD_ERR);
+                    return;
+                }
                 switch (type){
                     case Video:
                         //1.获取ext
@@ -169,9 +175,19 @@ public class YtDlp implements Runnable, Downloader {
                 //p1
                 String json1 = Info.cmd("yt-dlp -J " + links.get(0));
                 YtDlpItemInfo ytDlpItemInfo1 = gson.fromJson(json1, YtDlpItemInfo.class);
+                if (json1 == null || ytDlpItemInfo1 == null){
+                    log.error("解析失败：{}",links.get(0));
+                    updateProgressStatus(Context.DOWNLOAD_ERR);
+                    return;
+                }
                 //p2
                 String json2 = Info.cmd("yt-dlp -J " + links.get(1));
                 YtDlpItemInfo ytDlpItemInfo2 = gson.fromJson(json2, YtDlpItemInfo.class);
+                if (json2 == null || ytDlpItemInfo2 == null){
+                    log.error("解析失败：{}",links.get(1));
+                    updateProgressStatus(Context.DOWNLOAD_ERR);
+                    return;
+                }
                 switch (type){
                     case Video:
                         String fileName1 = uuid + Context.TMP + "1." + ytDlpItemInfo1.getExt();
