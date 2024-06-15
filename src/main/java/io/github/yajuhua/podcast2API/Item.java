@@ -25,6 +25,10 @@ public class Item {
     private boolean escapeEnclosure = true;//默认转义
     private boolean escapeImage = true;//默认转义
     private Request request;//下载请求
+    /**
+     * 附件类型 如video/mp4
+     */
+    private String enclosureType;
 
     public String getEnclosure() {
         //判断是默认还是自定义模式
