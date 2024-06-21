@@ -55,21 +55,20 @@ public class YtDlp implements Runnable, Downloader {
     private BufferedReader br;
     private Process process;
     private int exitCode;
-    private String cmd;
+    private String[] cmd;
     private boolean kill = false;
     private final Pattern compile = Pattern.compile(
             "\\[download\\]\\s+(?<percent>\\d+\\.\\d)%.*(?<totalSize>\\d+\\.\\d+K?M?G?)iB\\s+" +
                     "at\\s+(?<speed>\\d+\\.\\d+K?M?G?)iB/s\\s+ETA\\s+(?<s1>\\d{2}):(?<s2>\\d{2}):?(?<s3>\\d{2})?");
 
     public void startDownload()throws Exception {
-        //TODO 存储空间
         log.info("operation:{}", operation.toString());
         log.info("type:{}", type.toString());
         Gson gson = new Gson();
-        //无须合并，没这需求
+
         switch (operation) {
             case Single:
-                String json = Info.cmd("yt-dlp -J " + links.get(0));
+                String json = Info.cmd(new String[]{"yt-dlp","-J",links.get(0)});
                 YtDlpItemInfo ytDlpItemInfo = gson.fromJson(json, YtDlpItemInfo.class);
                 if (json == null || ytDlpItemInfo == null){
                     log.error("解析失败：{}",links.get(0),json);
@@ -90,8 +89,8 @@ public class YtDlp implements Runnable, Downloader {
                         finalFormat = Context.MP4;
                         args.put("--path",dir.getAbsolutePath());
                         args.put("--output",uuid + ".%(ext)s");
-                        cmd = Context.YT_DLP + BuildCmd.buildArgs(args) + links.get(0);
-                        log.info("执行命令：{}",cmd);
+                        cmd = BuildCmd.buildYtDlpCmd(args,links.get(0));
+                        log.info("执行命令：{}",Arrays.toString(cmd));
                         process = Runtime.getRuntime().exec(cmd);
                         br = new BufferedReader(new InputStreamReader(process.getInputStream(), "UTF-8"));
                         while ((line=br.readLine()) != null){
@@ -123,8 +122,8 @@ public class YtDlp implements Runnable, Downloader {
                         finalFormat = Context.M4A;
                         args.put("--path",dir.getAbsolutePath());
                         args.put("--output",uuid + ".%(ext)s");
-                        cmd = Context.YT_DLP + BuildCmd.buildArgs(args) + links.get(0);
-                        log.info("执行命令：{}",cmd);
+                        cmd = BuildCmd.buildYtDlpCmd(args,links.get(0));
+                        log.info("执行命令：{}",Arrays.toString(cmd));
                         process = Runtime.getRuntime().exec(cmd);
                         br = new BufferedReader(new InputStreamReader(process.getInputStream(), "UTF-8"));
                         while ((line=br.readLine()) != null){
@@ -147,10 +146,10 @@ public class YtDlp implements Runnable, Downloader {
                     case Customization:
                         args.put("--path",dir.getAbsolutePath());
                         args.put("--output",uuid + ".%(ext)s");
-                        cmd = Context.YT_DLP + BuildCmd.buildArgs(args) + links.get(0);
-                        finalFormat = Info.getExt(BuildCmd.buildArgs(args) + links.get(0));
+                        cmd = BuildCmd.buildYtDlpCmd(args,links.get(0));
+                        finalFormat = Info.getExt(args,links.get(0));
                         log.info("获取扩展名：{}",finalFormat);
-                        log.info("执行命令：{}",cmd);
+                        log.info("执行命令：{}",Arrays.toString(cmd));
                         process = Runtime.getRuntime().exec(cmd);
                         br= new BufferedReader(new InputStreamReader(process.getInputStream(), "UTF-8"));
                         while ((line=br.readLine()) != null){
@@ -173,7 +172,7 @@ public class YtDlp implements Runnable, Downloader {
                 break;
             case Merge:
                 //p1
-                String json1 = Info.cmd("yt-dlp -J " + links.get(0));
+                String json1 = Info.cmd(new String[]{"yt-dlp","-J",links.get(0)});
                 YtDlpItemInfo ytDlpItemInfo1 = gson.fromJson(json1, YtDlpItemInfo.class);
                 if (json1 == null || ytDlpItemInfo1 == null){
                     log.error("解析失败：{}",links.get(0));
@@ -181,7 +180,7 @@ public class YtDlp implements Runnable, Downloader {
                     return;
                 }
                 //p2
-                String json2 = Info.cmd("yt-dlp -J " + links.get(1));
+                String json2 = Info.cmd(new String[]{"yt-dlp","-J",links.get(1)});
                 YtDlpItemInfo ytDlpItemInfo2 = gson.fromJson(json2, YtDlpItemInfo.class);
                 if (json2 == null || ytDlpItemInfo2 == null){
                     log.error("解析失败：{}",links.get(1));
@@ -196,8 +195,8 @@ public class YtDlp implements Runnable, Downloader {
                         finalFormat = Context.MP4;
                         args.put("--path",dir.getAbsolutePath());
                         args.put("--output",fileName1);
-                        cmd = Context.YT_DLP + BuildCmd.buildArgs(args) + links.get(0);
-                        log.info("执行命令：{}",cmd);
+                        cmd = BuildCmd.buildYtDlpCmd(args,links.get(0));
+                        log.info("执行命令：{}",Arrays.toString(cmd));
                         process = Runtime.getRuntime().exec(cmd);
                         br = new BufferedReader(new InputStreamReader(process.getInputStream(), "UTF-8"));
                         while ((line=br.readLine()) != null){
@@ -220,8 +219,8 @@ public class YtDlp implements Runnable, Downloader {
                         finalFormat = Context.MP4;
                         args.put("--path",dir.getAbsolutePath());
                         args.put("--output",fileName2);
-                        cmd = Context.YT_DLP + BuildCmd.buildArgs(args) + links.get(1);
-                        log.info("执行命令：{}",cmd);
+                        cmd = BuildCmd.buildYtDlpCmd(args,links.get(1));
+                        log.info("执行命令：{}",Arrays.toString(cmd));
                         process = Runtime.getRuntime().exec(cmd);
                         br = new BufferedReader(new InputStreamReader(process.getInputStream(), "UTF-8"));
                         while ((line=br.readLine()) != null){
@@ -248,8 +247,8 @@ public class YtDlp implements Runnable, Downloader {
                             updateProgressStatus(Context.MERGE_ERR);
                             return;
                         }
-                        cmd = BuildCmd.ffmpegMerge(file1,file2, output);
-                        log.info("执行命令:{}",cmd);
+                        cmd = BuildCmd.ffmpegMergeCmdByArray(file1,file2,output);
+                        log.info("执行命令:{}",Arrays.toString(cmd));
                         updateProgressStatus(Context.MERGE_ING);
                         process = Runtime.getRuntime().exec(cmd);
                         exitCode = process.waitFor();
@@ -270,8 +269,8 @@ public class YtDlp implements Runnable, Downloader {
                         finalFormat = Context.M4A;
                         args.put("--path",dir.getAbsolutePath());
                         args.put("--output",uuid + ".%(ext)s");
-                        cmd = Context.YT_DLP + BuildCmd.buildArgs(args) + links.get(0);
-                        log.info("执行命令：{}",cmd);
+                        cmd = BuildCmd.buildYtDlpCmd(args,links.get(0));
+                        log.info("执行命令：{}",Arrays.toString(cmd));
                         process = Runtime.getRuntime().exec(cmd);
                         br = new BufferedReader(new InputStreamReader(process.getInputStream(), "UTF-8"));
                         while ((line=br.readLine()) != null){
@@ -294,10 +293,10 @@ public class YtDlp implements Runnable, Downloader {
                     case Customization:
                         args.put("--path",dir.getAbsolutePath());
                         args.put("--output",uuid + ".%(ext)s");
-                        cmd = Context.YT_DLP + BuildCmd.buildArgs(args) + links.get(0);
-                        finalFormat = Info.getExt(BuildCmd.buildArgs(args) + links.get(0));
+                        cmd = BuildCmd.buildYtDlpCmd(args,links.get(0));
+                        finalFormat = Info.getExt(args, links.get(0));
                         log.info("获取扩展名：{}",finalFormat);
-                        log.info("执行命令：{}",cmd);
+                        log.info("执行命令：{}",Arrays.toString(cmd));
                         process = Runtime.getRuntime().exec(cmd);
                         br= new BufferedReader(new InputStreamReader(process.getInputStream(), "UTF-8"));
                         while ((line=br.readLine()) != null){
