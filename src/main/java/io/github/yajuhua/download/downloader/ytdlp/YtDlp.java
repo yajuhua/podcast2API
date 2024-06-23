@@ -56,15 +56,18 @@ public class YtDlp implements Runnable, Downloader {
     private Process process;
     private int exitCode;
     private String[] cmd;
-    private boolean kill = false;
+    public static boolean kill = false;
     private final Pattern compile = Pattern.compile(
             "\\[download\\]\\s+(?<percent>\\d+\\.\\d)%.*(?<totalSize>\\d+\\.\\d+K?M?G?)iB\\s+" +
                     "at\\s+(?<speed>\\d+\\.\\d+K?M?G?)iB/s\\s+ETA\\s+(?<s1>\\d{2}):(?<s2>\\d{2}):?(?<s3>\\d{2})?");
+    public static Object proxyArgs;
 
     public void startDownload()throws Exception {
         log.info("operation:{}", operation.toString());
         log.info("type:{}", type.toString());
         Gson gson = new Gson();
+        //获取代理配置
+        proxyArgs = args.get("--proxy");
 
         switch (operation) {
             case Single:
@@ -94,6 +97,7 @@ public class YtDlp implements Runnable, Downloader {
                         process = Runtime.getRuntime().exec(cmd);
                         br = new BufferedReader(new InputStreamReader(process.getInputStream(), "UTF-8"));
                         while ((line=br.readLine()) != null){
+                            log.debug("yt-dlp-log：{}",line);
                             if (kill){return;}
                             matcher = compile.matcher(line);
                             if (matcher.find()) {
@@ -127,6 +131,7 @@ public class YtDlp implements Runnable, Downloader {
                         process = Runtime.getRuntime().exec(cmd);
                         br = new BufferedReader(new InputStreamReader(process.getInputStream(), "UTF-8"));
                         while ((line=br.readLine()) != null){
+                            log.debug("yt-dlp-log：{}",line);
                             if (kill){return;}
                             matcher = compile.matcher(line);
                             if (matcher.find()) {
@@ -153,6 +158,7 @@ public class YtDlp implements Runnable, Downloader {
                         process = Runtime.getRuntime().exec(cmd);
                         br= new BufferedReader(new InputStreamReader(process.getInputStream(), "UTF-8"));
                         while ((line=br.readLine()) != null){
+                            log.debug("yt-dlp-log：{}",line);
                             if (kill){return;}
                             matcher = compile.matcher(line);
                             if (matcher.find()) {
@@ -200,6 +206,7 @@ public class YtDlp implements Runnable, Downloader {
                         process = Runtime.getRuntime().exec(cmd);
                         br = new BufferedReader(new InputStreamReader(process.getInputStream(), "UTF-8"));
                         while ((line=br.readLine()) != null){
+                            log.debug("yt-dlp-log：{}",line);
                             if (kill){return;}
                             matcher = compile.matcher(line);
                             if (matcher.find()) {
@@ -224,6 +231,7 @@ public class YtDlp implements Runnable, Downloader {
                         process = Runtime.getRuntime().exec(cmd);
                         br = new BufferedReader(new InputStreamReader(process.getInputStream(), "UTF-8"));
                         while ((line=br.readLine()) != null){
+                            log.debug("yt-dlp-log：{}",line);
                             if (kill){return;}
                             matcher = compile.matcher(line);
                             if (matcher.find()) {
@@ -274,6 +282,7 @@ public class YtDlp implements Runnable, Downloader {
                         process = Runtime.getRuntime().exec(cmd);
                         br = new BufferedReader(new InputStreamReader(process.getInputStream(), "UTF-8"));
                         while ((line=br.readLine()) != null){
+                            log.debug("yt-dlp-log：{}",line);
                             if (kill){return;}
                             matcher = compile.matcher(line);
                             if (matcher.find()) {
@@ -300,6 +309,7 @@ public class YtDlp implements Runnable, Downloader {
                         process = Runtime.getRuntime().exec(cmd);
                         br= new BufferedReader(new InputStreamReader(process.getInputStream(), "UTF-8"));
                         while ((line=br.readLine()) != null){
+                            log.debug("yt-dlp-log：{}",line);
                             if (kill){return;}
                             matcher = compile.matcher(line);
                             if (matcher.find()) {
