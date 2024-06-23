@@ -60,6 +60,7 @@ public class Context {
     public static final Integer ALIST_FILE_NOT_FOUND = 25;//alist文件找不到
     public static final Integer ALIST_FILE_DELETE_ERR = 26;//文件删除错误
     public static final Integer ALIST_UPLOAD_CANCEL = 27;//取消上传
+    public static final Integer ALIST_UPLOAD_OUT_OF_MEMORY = 28;//内存不足
 
 
 
