@@ -1,5 +1,6 @@
 package io.github.yajuhua.podcast2API;
 
+import io.github.yajuhua.download.manager.Request;
 import io.github.yajuhua.podcast2API.extension.build.ExtendList;
 import io.github.yajuhua.podcast2API.setting.Setting;
 
@@ -33,4 +34,12 @@ public interface Podcast2 {
      * @throws Exception
      */
     List<Setting> settings() throws Exception;
+
+    /**
+     * 获取单个节目下载请求
+     * @param link 节目连接
+     * @return 下载请求
+     * @throws Exception
+     */
+    Request getRequest(String link) throws Exception;
 }
