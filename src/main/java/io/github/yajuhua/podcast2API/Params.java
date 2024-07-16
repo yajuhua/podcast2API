@@ -19,4 +19,6 @@ public class Params {
     private List<Integer> episodes;
     private List<InputAndSelectData> inputAndSelectDataList;
     private List<Setting> settings;
+    private String podcast2Version;
+    private String podcast2Uuid;
 }
