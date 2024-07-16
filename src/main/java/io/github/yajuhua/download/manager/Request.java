@@ -13,6 +13,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.File;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 
@@ -30,11 +32,13 @@ public class Request{
     private Map args;
     private File dir;
     private DownloadManager.Downloader downloader;
+    private Object customizeDownloader;
 
     public Downloader build(){
 
         //构建下载
         Downloader downloader1 = null;
+        
 
         switch (downloader){
             case Nm3u8DlRe:
@@ -70,8 +74,33 @@ public class Request{
                         .dir(dir)
                         .build();
                 break;
+            case Customize:
+                try {
+                    Downloader tmp = (Downloader) customizeDownloader;
+                    if (customizeDownloader == null) {
+                        throw new IllegalArgumentException("customizeDownloader is not provided.");
+                    }
+                    setField(customizeDownloader, "links", links);
+                    setField(customizeDownloader, "operation", operation);
+                    setField(customizeDownloader, "type", type);
+                    setField(customizeDownloader, "channelUuid", channelUuid);
+                    setField(customizeDownloader, "uuid", uuid);
+                    setField(customizeDownloader, "args", args);
+                    setField(customizeDownloader, "dir", dir);
+
+                    downloader1 = tmp;
+                } catch (Exception e) {
+                    throw new RuntimeException("Failed to set fields for custom downloader", e);
+                }
+                break;
         }
 
         return downloader1;
+    }
+
+    private void setField(Object object, String fieldName, Object value) throws NoSuchFieldException, IllegalAccessException {
+        Field field = object.getClass().getDeclaredField(fieldName);
+        field.setAccessible(true);
+        field.set(object, value);
     }
 }

@@ -17,7 +17,8 @@ public class DownloadManager implements Runnable{
     public enum Downloader {
         YtDlp,
         Nm3u8DlRe,
-        Aria2
+        Aria2,
+        Customize
     }
     private int maxThreads;
     private int corePoolSize;
