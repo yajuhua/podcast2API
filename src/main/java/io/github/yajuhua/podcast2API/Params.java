@@ -21,4 +21,5 @@ public class Params {
     private List<Setting> settings;
     private String podcast2Version;
     private String podcast2Uuid;
+    private Item lastItem;//上一次的
 }
