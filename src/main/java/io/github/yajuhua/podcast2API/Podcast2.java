@@ -42,4 +42,12 @@ public interface Podcast2 {
      * @throws Exception
      */
     Request getRequest(String link) throws Exception;
+
+    /**
+     * 获取单个节目的详细信息
+     * @param link
+     * @return
+     * @throws Exception
+     */
+    Item getItem(String link)throws Exception;
 }
